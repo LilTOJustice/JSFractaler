@@ -35,8 +35,8 @@ uniform float u_time;
 void main() {
     vec2 st = (gl_FragCoord.xy/u_resolution.xy);
     complex c;
-    c.real = (st.x - 0.5)/zoom - pos.x;
-    c.imag = (st.y - 0.5)/zoom - pos.y;
+    c.real = (st.x - 0.5)/u_zoom - u_pos.x;
+    c.imag = (st.y - 0.5)/u_zoom - u_pos.y;
 	float color = 1. - 1./float(ITERATIONS) * float(mandelbrot(c));
     gl_FragColor = vec4(color,color,color,1.0);
 }
