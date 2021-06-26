@@ -1,5 +1,5 @@
-// Author:
-// Title:
+// Author: LilTOJustice
+// Title: Mandelbrot
 
 #ifdef GL_ES
 precision mediump float;
