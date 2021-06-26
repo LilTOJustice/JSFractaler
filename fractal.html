@@ -1,5 +1,6 @@
-<script src="javascript/math.js" type="text/javascript"></script>
+<script src="math.js" type="text/javascript"></script>
 <script>
+    const ITERATIONS = 20;
     // Functions:
     function makePixel(ctxt, r, g, b, a) {
         var retval = ctxt.createImageData(1,1); //create a pixel
@@ -9,17 +10,28 @@
         retval.data[3] = a;
         return retval;
     }
-    function mandelbrot() {
-
+    function mandelbrot(c) {
+        var final = c;
+        for (let i = 0; i < ITERATIONS; i++) {
+            final = final^2 + c;
+            if (math.sqrt(final.re^2 + final.im^2) > 2) {
+                return false;
+            }
+        }
+        return true;
     }
 </script>
 
-<canvas id="fractalwindow" width="1920" height="1080">
+<canvas id="fractalwindow" width="500" height="500">
     <script type="text/javascript">
-        console.log(math.sqrt(4));
         var canvas = document.getElementById("fractalwindow"); //get the canvas object
         var context = canvas.getContext("2d");
-        var pixel = makePixel(context, 0,0,0,255);
-        context.putImageData(pixel, 0,0);
+        for (let i = 0; i < 500; i++) {
+            for (let j = 0; j < 500; j++) {
+                let color = mandelbrot(math.complex(i/500,j/500));
+                let pixel = makePixel(context, color*255,color*255,color*255,255);
+                context.putImageData(pixel, i,j);
+            }
+        }
     </script>
 </canvas>
