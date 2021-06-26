@@ -1,0 +1,25 @@
+<script src="javascript/math.js" type="text/javascript"></script>
+<script>
+    // Functions:
+    function makePixel(ctxt, r, g, b, a) {
+        var retval = ctxt.createImageData(1,1); //create a pixel
+        retval.data[0] = r;
+        retval.data[1] = g;
+        retval.data[2] = b;
+        retval.data[3] = a;
+        return retval;
+    }
+    function mandelbrot() {
+
+    }
+</script>
+
+<canvas id="fractalwindow" width="1920" height="1080">
+    <script type="text/javascript">
+        console.log(math.sqrt(4));
+        var canvas = document.getElementById("fractalwindow"); //get the canvas object
+        var context = canvas.getContext("2d");
+        var pixel = makePixel(context, 0,0,0,255);
+        context.putImageData(pixel, 0,0);
+    </script>
+</canvas>
