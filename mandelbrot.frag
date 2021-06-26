@@ -7,6 +7,7 @@ precision mediump float;
 
 #define ITERATIONS 20
 
+
 struct complex {
     float real, imag;
 };
@@ -25,10 +26,8 @@ int mandelbrot(complex c) {
     return count;
 }
 
-const float zoom = 0.676;
-const float x_coord = 0.952;
-const float y_coord = 0.528;
-
+uniform float u_zoom;
+uniform float u_pos;
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
@@ -36,8 +35,8 @@ uniform float u_time;
 void main() {
     vec2 st = (gl_FragCoord.xy/u_resolution.xy);
     complex c;
-    c.real = (st.x - 0.5)/zoom - x_coord;
-    c.imag = (st.y - 0.5)/zoom - y_coord;
+    c.real = (st.x - 0.5)/zoom - pos.x;
+    c.imag = (st.y - 0.5)/zoom - pos.y;
 	float color = 1. - 1./float(ITERATIONS) * float(mandelbrot(c));
     gl_FragColor = vec4(color,color,color,1.0);
 }

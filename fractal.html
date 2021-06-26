@@ -1,2 +1,8 @@
 <script type="text/javascript" src="https://rawgit.com/patriciogonzalezvivo/glslCanvas/master/dist/GlslCanvas.js"></script>
-<canvas class="glslCanvas" data-fragment="https://raw.githubusercontent.com/LilTOJustice/JSFractaler/main/mandelbrot.frag?token=ANZB244S7J2YUBDLXAEFY43A26PQI" id="fractalwindow" width="500" height="500"></canvas>
+<canvas class="glslCanvas" data-fragment-url="https://raw.githubusercontent.com/LilTOJustice/JSFractaler/main/mandelbrot.frag" id="fractalwindow" width="500" height="500"> 
+    <script>
+        var sandbox = document.getElementById('fractalwindow');
+        sandbox.setUniform("u_zoom", 0.25);
+        sandbox.setUniform("u_pos", 0.3, 0.)
+    </script>
+</canvas>
