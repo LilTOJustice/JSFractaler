@@ -26,8 +26,8 @@ int mandelbrot(complex c) {
     return count;
 }
 
-float u_zoom=0.3;
-vec2 u_pos=vec2(0.25,0.);
+uniform float u_zoom;
+uniform vec2 u_pos;
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
