@@ -1,8 +1,49 @@
 <script type="text/javascript" src="https://rawgit.com/patriciogonzalezvivo/glslCanvas/master/dist/GlslCanvas.js"></script>
-<canvas class="glslCanvas" data-fragment-url="https://raw.githubusercontent.com/LilTOJustice/JSFractaler/main/mandelbrot.frag" id="fractalwindow" width="500" height="500"> 
+<canvas id="fractalwin" width="1920" height="1080"> 
     <script>
-        var sandbox = document.getElementById('fractalwindow');
-        sandbox.setUniform("u_zoom", 0.25);
-        sandbox.setUniform("u_pos", 0.3, 0.)
+        //functions:
+        function doKeyDown(e) {
+            if (e.code == "KeyW") {
+                u_zoom += 0.1*u_zoom; 
+                sandbox.setUniform('u_zoom', u_zoom);
+            }
+            else if (e.code == "KeyS") {
+                u_zoom -= 0.1*u_zoom;
+                sandbox.setUniform('u_zoom', u_zoom);
+            }
+            else if (e.code == "ArrowRight") {
+                u_pos_x -= 0.01/u_zoom;
+                sandbox.setUniform('u_pos', u_pos_x, u_pos_y);
+            }
+            else if (e.code == "ArrowLeft") {
+                u_pos_x += 0.01/u_zoom;
+                sandbox.setUniform('u_pos', u_pos_x, u_pos_y);
+            }
+            else if (e.code == "ArrowUp") {
+                u_pos_y -= 0.01/u_zoom * canvas_aspect;
+                sandbox.setUniform('u_pos', u_pos_x, u_pos_y);
+            }
+            else if (e.code == "ArrowDown") {
+                u_pos_y += 0.01/u_zoom * canvas_aspect;
+                sandbox.setUniform('u_pos', u_pos_x, u_pos_y);
+            }
+        }
+
+        //code:
+        var canvas = document.getElementById("fractalwin");
+        canvas.width=window.innerWidth - 20;
+        canvas.height=window.innerHeight - 20;
+        var canvas_aspect = canvas.width/canvas.height;
+        var sandbox = new GlslCanvas(canvas);
+        var mandle_frag = "precision highp double; const int max_it = 200; struct complex { double real, imag;  }; int mandelbrot(complex c) { complex final = c; int count = 0; for (int i = 0; i < max_it; i++) { double new_real = final.real*final.real + -1.*final.imag*final.imag + c.real; double new_imag = 2.*final.real*final.imag + c.imag; final.real = new_real; final.imag = new_imag; count++; if (final.real > 2. ||   final.imag > 2.) break; } return count; } uniform vec2 u_resolution; uniform vec2 u_mouse; uniform double u_time; uniform double u_zoom; uniform vec2 u_pos; void main() { double aspect = u_resolution.xy.x/u_resolution.xy.y; vec2 st = (gl_FragCoord.xy/u_resolution.xy); complex c; c.real = (st.x - 0.5)/u_zoom - u_pos.x; c.imag = (st.y - 0.5)/u_zoom - u_pos.y; c.real = c.real * aspect; double color = 1. - 1./double(max_it) * double(mandelbrot(c)); gl_FragColor = vec4(color,color,color,1.0);  }"
+        sandbox.load(mandle_frag);
+        var u_zoom = 0.3;
+        var u_pos_x = 0.25;
+        var u_pos_y = 0.;
+        var u_it = 20;
+        sandbox.setUniform('u_zoom', u_zoom);
+        sandbox.setUniform('u_pos', u_pos_x, u_pos_y);
+        //sandbox.setUniform('u_it', u_it);
+        document.addEventListener('keydown', doKeyDown, true);
     </script>
 </canvas>
